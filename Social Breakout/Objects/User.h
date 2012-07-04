@@ -18,5 +18,6 @@
 - (void) resetAchievements;
 
 - (void) sync;
+- (void) reset;
 
 @end

@@ -279,7 +279,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">3</string>
+						<string key="IBUIText">0</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -622,14 +622,6 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">livesLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="51230337"/>
-					</object>
-					<int key="connectionID">31</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">border_nlol</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="6377968"/>
@@ -707,6 +699,14 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 						<reference key="destination" ref="35639668"/>
 					</object>
 					<int key="connectionID">60</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">livesLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="51230337"/>
+					</object>
+					<int key="connectionID">61</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -915,7 +915,7 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">60</int>
+			<int key="maxID">61</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1049,13 +1049,13 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 			<string key="block_tweet_larger.png">{105, 105}</string>
 			<string key="border_nlol.png">{640, 960}</string>
 			<string key="border_plol.png">{640, 960}</string>
-			<string key="bp_twitter_bgplane.png">{640, 960}</string>
+			<string key="bp_twitter_bgplane.png">{320, 480}</string>
 			<string key="button_back.png">{30, 30}</string>
 			<string key="frame_9.png">{640, 960}</string>
 			<string key="label_lives.png">{84, 22}</string>
 			<string key="label_score.png">{94, 22}</string>
-			<string key="loading.png">{640, 960}</string>
-			<string key="paused.png">{640, 960}</string>
+			<string key="loading.png">{320, 480}</string>
+			<string key="paused.png">{320, 480}</string>
 			<string key="play.png">{359, 363}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>

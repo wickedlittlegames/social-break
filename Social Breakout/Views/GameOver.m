@@ -163,6 +163,7 @@ UIImageView *avatarImageRetain;
     // new high score
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     int highscore_check = [prefs integerForKey:@"score_best"];
+    int highscore_check_extreme = [prefs integerForKey:@"extreme_score_best"];
     int tweetCount = [[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetCount"] intValue];
     
     
@@ -177,7 +178,9 @@ UIImageView *avatarImageRetain;
     if ( highscore_check >= 100000 || score_game >= 100000  )
     {
         [user reportAchievementIdentifier:@"HIGHSCORE_100000" percentComplete:100];
-        
+    }
+    if ( highscore_check_extreme >= 100000 || score_game > 100000 )
+    {
         if ( game_mode == @"extreme")
         {
             [user reportAchievementIdentifier:@"EXTREME" percentComplete:100];
@@ -194,6 +197,36 @@ UIImageView *avatarImageRetain;
     {
         [user reportAchievementIdentifier:@"ALL_POWERUPS" percentComplete:100.0];
     }
+    if ( score_game > highscore_check_extreme )
+    {
+        [prefs setInteger:score_game forKey:@"score_best"];
+        [prefs synchronize];
+        
+        if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
+        {
+            GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+            [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
+                if(localPlayer.isAuthenticated) 
+                {
+                    GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"2"];
+                    scoreReporter.value = score_game;
+                    
+                    [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+                        if (error != nil)
+                        {
+                            // handle the reporting error
+                        }
+                    }];
+                }
+            }];
+        }
+        
+        label_score_best.text = [NSString stringWithFormat:@"%d",score_game];
+    }
+    else
+    {
+        label_score_best.text = [NSString stringWithFormat:@"%d",highscore_check_extreme];
+    }
     
     if ( score_game > highscore_check )
     {
@@ -206,32 +239,15 @@ UIImageView *avatarImageRetain;
             [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
                 if(localPlayer.isAuthenticated) 
                 {
-                    if ( game_mode == @"extreme" )
-                    {
-                        GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"2"];
-                        scoreReporter.value = score_game;
-                        
-                        [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
-                            if (error != nil)
-                            {
-                                // handle the reporting error
-                            }
-                        }];
-
-                    }
-                    else 
-                    {
-                        GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"1"];
-                        scoreReporter.value = score_game;
-                        
-                        [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
-                            if (error != nil)
-                            {
-                                // handle the reporting error
-                            }
-                        }];
- 
-                    }
+                    GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"1"];
+                    scoreReporter.value = score_game;
+                    
+                    [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+                        if (error != nil)
+                        {
+                            // handle the reporting error
+                        }
+                    }];
                 }
             }];
         }

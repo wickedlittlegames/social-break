@@ -215,6 +215,12 @@
     }
 }
 
+- (IBAction)resetAchievements:(id)sender
+{
+    [user reset];
+    [user resetAchievements];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(gameLoop:)];

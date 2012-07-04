@@ -61,6 +61,8 @@ NSString *scoreExtraText;
             lives = 1;
         }
         
+        
+        
         ////NSLog(@"UI Elements set up");
         
         // Setup the blocks
@@ -89,10 +91,13 @@ NSString *scoreExtraText;
         ball.tweetPanelAnimating = NO;
         [self.view addSubview:ball];
         
+        livesLabel.text = [NSString stringWithFormat:@"%d",lives];        
+        
         //NSLog(@"Ball initiated");        
         
         //NSLog(@"+ Spawning Blocks...");
         [self spawnBlocks];
+        
         //NSLog(@"- Spawning Blocks Finished");        
     }
     

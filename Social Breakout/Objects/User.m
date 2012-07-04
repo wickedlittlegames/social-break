@@ -13,75 +13,94 @@
 
 -(User *) init {
     
-    
     if((self = [super init])){   
         
-        self.udata = [NSUserDefaults standardUserDefaults];
-        
-        if ( [self.udata boolForKey:@"CREATED"] == FALSE )
+        if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"CREATED"] == FALSE )
         {
             [self create];
         }
         
-        self.powerup_score = [self.udata integerForKey:@"POWERUP_SCORE"];
-        self.powerup_small = [self.udata integerForKey:@"POWERUP_SMALL"];
-        self.powerup_bigger = [self.udata integerForKey:@"POWERUP_BIGGER"];
-        self.powerup_oneup = [self.udata integerForKey:@"POWERUP_ONEUP"];
-        self.powerup_reverse = [self.udata integerForKey:@"POWERUP_REVERSE"];
-        self.powerup_random = [self.udata integerForKey:@"POWERUP_RANDOM"];
+        self.powerup_score = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SCORE"];
+        self.powerup_small = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SMALL"];
+        self.powerup_bigger = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_BIGGER"];
+        self.powerup_oneup = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_ONEUP"];
+        self.powerup_reverse = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_REVERSE"];
+        self.powerup_random = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_RANDOM"];
 
-        self.tweets_collected_overall = [self.udata integerForKey:@"TWEETS_COLLECTED"];
+        self.tweets_collected_overall = [[NSUserDefaults standardUserDefaults] integerForKey:@"TWEETS_COLLECTED"];
         
-        NSLog(@"%d",[self.udata boolForKey:@"HIGHSCORE_1000"]);
+        [self _log];
     }
     
     return self;
 }
 
-
 - (void) create 
 {
-    NSLog(@"CREATED");
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"TWEETS_COLLECTED"];
+    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"CREATED"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_SCORE"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_SMALL"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_BIGGER"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_ONEUP"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_REVERSE"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_RANDOM"];
     
-    [self.udata setInteger:0 forKey:@"TWEETS_COLLECTED"];
-    [self.udata setBool:TRUE forKey:@"CREATED"];
-    [self.udata setInteger:0 forKey:@"POWERUP_SCORE"];
-    [self.udata setInteger:0 forKey:@"POWERUP_SMALL"];
-    [self.udata setInteger:0 forKey:@"POWERUP_BIGGER"];    
-    [self.udata setInteger:0 forKey:@"POWERUP_ONEUP"];    
-    [self.udata setInteger:0 forKey:@"POWERUP_REVERSE"];    
-    [self.udata setInteger:0 forKey:@"POWERUP_RANDOM"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_1000"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_10000"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_100000"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"MAX_TWEETS"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"SPIN"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEETS_COLLECTED"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEETED"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEET_BLOCK_HIT"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"ALL_POWERUPS"];
     
-    [self.udata setBool:FALSE forKey:@"HIGHSCORE_1000"];
-    [self.udata setBool:FALSE forKey:@"HIGHSCORE_10000"];
-    [self.udata setBool:FALSE forKey:@"HIGHSCORE_100000"];
-    [self.udata setBool:FALSE forKey:@"MAX_TWEETS"];
-    [self.udata setBool:FALSE forKey:@"SPIN"];
-    [self.udata setBool:FALSE forKey:@"TWEETS_COLLECTED"];
-    [self.udata setBool:FALSE forKey:@"TWEETED"];
-    [self.udata setBool:FALSE forKey:@"TWEET_BLOCK_HIT"];
-    [self.udata setBool:FALSE forKey:@"ALL_POWERUPS"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void) reset
+{
+    [self create];
+}
+
+- (void) _log
+{
+    NSLog(@"TWEETS_COLLECTED: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"TWEETS_COLLECTED"]);
+    NSLog(@"CREATED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"CREATED"]);
+    NSLog(@"POWERUP_SCORE: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SCORE"]);
+    NSLog(@"POWERUP_SMALL: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SMALL"]);
+    NSLog(@"POWERUP_BIGGER: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_BIGGER"]);
+    NSLog(@"POWERUP_ONEUP: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_ONEUP"]);
+    NSLog(@"POWERUP_REVERSE: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_REVERSE"]);
+    NSLog(@"POWERUP_RANDOM: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_RANDOM"]);
     
-    [self.udata synchronize];
+    NSLog(@"HIGHSCORE_1000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_1000"]);    
+    NSLog(@"HIGHSCORE_10000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_10000"]);    
+    NSLog(@"HIGHSCORE_100000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_100000"]);    
+    NSLog(@"MAX_TWEETS: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"MAX_TWEETS"]);    
+    NSLog(@"SPIN: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"SPIN"]);    
+    NSLog(@"TWEETS_COLLECTED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETS_COLLECTED"]);    
+    NSLog(@"TWEETED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETED"]);    
+    NSLog(@"TWEET_BLOCK_HIT: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEET_BLOCK_HIT"]);    
+    NSLog(@"ALL_POWERUPS: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"ALL_POWERUPS"]);    
 }
 
 - (void) sync
 {
-    [self.udata setInteger:self.tweets_collected_overall forKey:@"TWEETS_COLLECTED"];
-
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_SCORE"];
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_SMALL"];
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_BIGGER"];    
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_ONEUP"];    
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_REVERSE"];    
-    [self.udata setInteger:self.powerup_score forKey:@"POWERUP_RANDOM"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.tweets_collected_overall forKey:@"TWEETS_COLLECTED"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_score forKey:@"POWERUP_SCORE"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_small forKey:@"POWERUP_SMALL"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_bigger forKey:@"POWERUP_BIGGER"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_oneup forKey:@"POWERUP_ONEUP"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_reverse forKey:@"POWERUP_REVERSE"];    
+    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_random forKey:@"POWERUP_RANDOM"];
     
-    [self.udata synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) reportAchievementIdentifier: (NSString*) identifier percentComplete: (float) percent
 {
-    
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
     [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
         
@@ -94,65 +113,64 @@
                 {
                 achievement.percentComplete = percent;
                 [achievement reportAchievementWithCompletionHandler:^(NSError *error)
-                 {
+                {
                      if (error != nil)
                      {
                          NSLog(@"%@",error);
                      }
                      else 
                      {
-                         NSLog(@"PERCENT: %f",percent);
                          if ( percent == 100.0 )
-                             
                          {   
-                             NSLog(@"%d",[self.udata boolForKey:@"HIGHSCORE_1000"]);
-                             // notify the user
-                             if (identifier == @"MAX_TWEETS" && [self.udata boolForKey:@"MAX_TWEETS"] == 0)
+                             if (identifier == @"MAX_TWEETS" && [[NSUserDefaults standardUserDefaults] boolForKey:@"MAX_TWEETS"] == FALSE)
                              {
                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Extreme Social Breaker" andMessage:@"You are an EXTREME Social Breaker"];
-                                [self.udata setBool:1 forKey:@"MAX_TWEETS"];
+                                [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"MAX_TWEETS"];
                              }
-                             if (identifier == @"HIGHSCORE_1000" && [self.udata boolForKey:@"HIGHSCORE_1000"] == 0)
+                             if (identifier == @"HIGHSCORE_1000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_1000"] == FALSE)
                              {
+                                 NSLog(@"DO THIS!!");
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_1000"];                                                                  
+                                  [[NSUserDefaults standardUserDefaults] synchronize];
+                                 [self _log];
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Casual" andMessage:@"Score 1000 points or more."];
-                                 [self.udata setBool:1 forKey:@"HIGHSCORE_1000"];
-                                 [self.udata synchronize];
                              }
-                             if (identifier == @"HIGHSCORE_10000" && [self.udata boolForKey:@"HIGHSCORE_10000"] == 0)
+                             if (identifier == @"HIGHSCORE_10000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_10000"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Addicted" andMessage:@"Score 10000 points or more."];
-                                 [self.udata setBool:TRUE forKey:@"HIGHSCORE_10000"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_10000"];
                              }
-                             if (identifier == @"HIGHSCORE_100000" && [self.udata boolForKey:@"HIGHSCORE_100000"] == 0)
+                             if (identifier == @"HIGHSCORE_100000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_100000"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Hardcore" andMessage:@"Score 100000 points or more."];
-                                 [self.udata setBool:TRUE forKey:@"HIGHSCORE_100000"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_100000"];
                              }                             
-                             if (identifier == @"SPIN" && [self.udata boolForKey:@"SPIN"] == 0)
+                             if (identifier == @"SPIN" && [[NSUserDefaults standardUserDefaults] boolForKey:@"SPIN"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"You've Played This Before" andMessage:@"Spin the ball!"];
-                                 [self.udata setBool:TRUE forKey:@"SPIN"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"SPIN"];
                              }
-                             if (identifier == @"TWEETS_COLLECTED" && [self.udata boolForKey:@"TWEETS_COLLECTED"] == 0)
+                             if (identifier == @"TWEETS_COLLECTED" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETS_COLLECTED"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Who Needs TweetDeck?" andMessage:@"You collected more than 100 tweets in Online Mode!"];
-                                 [self.udata setBool:TRUE forKey:@"TWEETS_COLLECTED"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEETS_COLLECTED"];
                              }
-                             if (identifier == @"TWEETED" && [self.udata boolForKey:@"TWEETED"] == 0)
+                             if (identifier == @"TWEETED" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETED"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Spread The Word!" andMessage:@"You tweeted your high-score to all your friends!"];
-                                 [self.udata setBool:TRUE forKey:@"TWEETED"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEETED"];
                              }
-                             if (identifier == @"TWEET_BLOCK_HIT" && [self.udata boolForKey:@"TWEET_BLOCK_HIT"] == 0)
+                             if (identifier == @"TWEET_BLOCK_HIT" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEET_BLOCK_HIT"] == FALSE)
                              {
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Social Breaker" andMessage:@"You collected a tweet by hitting a tweet block!"];
-                                 [self.udata setBool:TRUE forKey:@"TWEET_BLOCK_HIT"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEET_BLOCK_HIT"];
                              }
-                             if (identifier == @"ALL_POWERUPS" && [self.udata boolForKey:@"ALL_POWERUPS"] == 0)
-                             {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Collector" andMessage:@"You have collected one of each of the powerups!"];
-                                 [self.udata setBool:TRUE forKey:@"ALL_POWERUPS"];
-                             }
+                             //if (identifier == @"ALL_POWERUPS" && [[NSUserDefaults standardUserDefaults] boolForKey:@"ALL_POWERUPS"] == FALSE)
+                             //{
+                             //    [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Collector" andMessage:@"You have collected one of each of the powerups!"];
+                             //    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"ALL_POWERUPS"];
+                             //}
+                            
                          }
                      }
                  }];

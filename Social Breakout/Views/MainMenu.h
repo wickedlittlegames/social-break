@@ -3,7 +3,7 @@
 //  Social Breakout
 //
 //  Created by Andrew Girvan on 03/01/2012.
-//  Copyright (c) 2012 ChalmersTH. All rights reserved.
+//  Copyright (c) 2012. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -32,6 +32,7 @@
 - (IBAction)extremebuttonTapped:(id)sender;
 - (IBAction)clickLeaderboard:(id)sender;
 - (IBAction)clickAchievements:(id)sender;
+- (IBAction)resetAchievements:(id)sender;
 - (void) setDefaultOptions;
 
 @end
