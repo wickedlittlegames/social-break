@@ -24,6 +24,7 @@
 #define setting_block_max       84
 #define setting_score_per_block 100
 #define setting_starting_lives  3
+#define setting_extreme_starting_lives 1
 #define config_block_line       215
 #define config_blocks_rows      5
 #define config_blocks_cols      12

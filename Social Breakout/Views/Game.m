@@ -58,7 +58,7 @@ NSString *scoreExtraText;
         
         if ( is_extreme ) 
         {
-            lives = 1;
+            lives = setting_extreme_starting_lives;
         }
         
         
@@ -536,6 +536,10 @@ NSString *scoreExtraText;
         if (powerup.center.y > 500 && powerupCount == 1)
         {
             powerupCount--;
+        }
+        if ( lives >= 10 )
+        {
+            [user reportAchievementIdentifier:@"INDESTRUCTABLE" percentComplete:100];
         }
         [ball update];
     }

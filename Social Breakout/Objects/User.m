@@ -55,6 +55,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEETED"];
     [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEET_BLOCK_HIT"];
     [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"ALL_POWERUPS"];
+    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"INDESTRUCTABLE"];    
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -165,11 +166,17 @@
                                  [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Social Breaker" andMessage:@"You collected a tweet by hitting a tweet block!"];
                                  [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEET_BLOCK_HIT"];
                              }
+                             if (identifier == @"INDESTRUCTABLE" && [[NSUserDefaults standardUserDefaults] boolForKey:@"INDESTRUCTABLE"] == FALSE)
+                             {
+                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Indestructible" andMessage:@"You managed to hold on to 10 lives!"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"INDESTRUCTABLE"];
+                             }
                              //if (identifier == @"ALL_POWERUPS" && [[NSUserDefaults standardUserDefaults] boolForKey:@"ALL_POWERUPS"] == FALSE)
                              //{
                              //    [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Collector" andMessage:@"You have collected one of each of the powerups!"];
                              //    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"ALL_POWERUPS"];
                              //}
+                             [[NSUserDefaults standardUserDefaults] synchronize];
                             
                          }
                      }
