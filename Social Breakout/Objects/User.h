@@ -12,12 +12,10 @@
 @interface User : NSObject {}
 
 @property (nonatomic, retain) NSUserDefaults *udata;
-@property (nonatomic, assign) int tweets_collected_overall,powerup_score,powerup_small,powerup_bigger,powerup_oneup,powerup_reverse,powerup_random;
+@property (nonatomic, assign) int tweets_collected_overall;
 
 - (void) reportAchievementIdentifier: (NSString*) identifier percentComplete: (float) percent;
 - (void) resetAchievements;
 
-- (void) sync;
-- (void) reset;
-
 @end
+ 

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface OptionMenu : UIViewController
 {
     UILabel *tweetCountLabel, *tweetTimeLabel;
     UISlider *tweetCountSlider, *tweetTimeSlider;
+    User *user;
 }
 
 @property (strong, retain) IBOutlet UILabel *tweetCountLabel, *tweetTimeLabel;

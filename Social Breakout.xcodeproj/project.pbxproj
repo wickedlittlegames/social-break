@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C24572915AB0A6E00329E64 /* btn_sport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24572715AB0A6E00329E64 /* btn_sport@2x.png */; };
+		9C24572A15AB0A6E00329E64 /* btn_sport.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24572815AB0A6E00329E64 /* btn_sport.png */; };
+		9C24572E15AB0AE900329E64 /* label_extreme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24572C15AB0AE900329E64 /* label_extreme@2x.png */; };
+		9C24572F15AB0AE900329E64 /* label_extreme.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24572D15AB0AE900329E64 /* label_extreme.png */; };
+		9C24573215AB0B8800329E64 /* label_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24573015AB0B8800329E64 /* label_normal@2x.png */; };
+		9C24573315AB0B8800329E64 /* label_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C24573115AB0B8800329E64 /* label_normal.png */; };
 		9C44948814C8115E00A6EC01 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C44948214C8115E00A6EC01 /* CFNetwork.framework */; };
 		9C44948914C8115E00A6EC01 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C44948314C8115E00A6EC01 /* libz.1.1.3.dylib */; };
 		9C44948A14C8115E00A6EC01 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C44948414C8115E00A6EC01 /* MobileCoreServices.framework */; };
@@ -156,6 +162,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C24572715AB0A6E00329E64 /* btn_sport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_sport@2x.png"; sourceTree = "<group>"; };
+		9C24572815AB0A6E00329E64 /* btn_sport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_sport.png; sourceTree = "<group>"; };
+		9C24572C15AB0AE900329E64 /* label_extreme@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_extreme@2x.png"; sourceTree = "<group>"; };
+		9C24572D15AB0AE900329E64 /* label_extreme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = label_extreme.png; sourceTree = "<group>"; };
+		9C24573015AB0B8800329E64 /* label_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_normal@2x.png"; sourceTree = "<group>"; };
+		9C24573115AB0B8800329E64 /* label_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = label_normal.png; sourceTree = "<group>"; };
 		9C44948214C8115E00A6EC01 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9C44948314C8115E00A6EC01 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		9C44948414C8115E00A6EC01 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -440,6 +452,12 @@
 		9CEC7BCF15A448C0002F84B0 /* GFX */ = {
 			isa = PBXGroup;
 			children = (
+				9C24573015AB0B8800329E64 /* label_normal@2x.png */,
+				9C24573115AB0B8800329E64 /* label_normal.png */,
+				9C24572C15AB0AE900329E64 /* label_extreme@2x.png */,
+				9C24572D15AB0AE900329E64 /* label_extreme.png */,
+				9C24572715AB0A6E00329E64 /* btn_sport@2x.png */,
+				9C24572815AB0A6E00329E64 /* btn_sport.png */,
 				9CEC7BD015A448C0002F84B0 /* ball.png */,
 				9CEC7BD115A448C0002F84B0 /* bg_mainmenu.png */,
 				9CEC7BD215A448C0002F84B0 /* block_blue.png */,
@@ -810,6 +828,12 @@
 				9CEC7CEA15A448C0002F84B0 /* Game.xib in Resources */,
 				9CEC7CEC15A448C0002F84B0 /* GameOver.xib in Resources */,
 				9CEC7CEE15A448C0002F84B0 /* MainMenu.storyboard in Resources */,
+				9C24572915AB0A6E00329E64 /* btn_sport@2x.png in Resources */,
+				9C24572A15AB0A6E00329E64 /* btn_sport.png in Resources */,
+				9C24572E15AB0AE900329E64 /* label_extreme@2x.png in Resources */,
+				9C24572F15AB0AE900329E64 /* label_extreme.png in Resources */,
+				9C24573215AB0B8800329E64 /* label_normal@2x.png in Resources */,
+				9C24573315AB0B8800329E64 /* label_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -113,15 +113,9 @@ UIImageView *avatarImageRetain;
     {
         // Create the view controller
         TWTweetComposeViewController *twitter = [[TWTweetComposeViewController alloc] init];
-        
-        // Optional: set an image, url and initial text
         [twitter setInitialText:[NSString stringWithFormat:@"I just scored %d points playing Social Break, at the same time as checking Twitter! #socialbreak http://bit.ly/socialbreak", score_game]];
-        
-        // Show the controller
         [self presentModalViewController:twitter animated:YES];
-        
-        // gc
-        [user reportAchievementIdentifier:@"TWEETED" percentComplete:100.0];
+        [user reportAchievementIdentifier:@"ACH_TWEETED" percentComplete:100.0];
     }
     else
     {
@@ -146,121 +140,11 @@ UIImageView *avatarImageRetain;
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    user = [User alloc];
-    
-    // new high score
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int highscore_check = [prefs integerForKey:@"score_best"];
-    int highscore_check_extreme = [prefs integerForKey:@"extreme_score_best"];
-    int tweetCount = [[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetCount"] intValue];
-    
-    
-    if ( highscore_check >= 1000 || score_game >= 1000 )
-    {
-        [user reportAchievementIdentifier:@"HIGHSCORE_1000" percentComplete:100];
-    }
-    if ( highscore_check >= 10000 || score_game >= 10000  )
-    {
-        [user reportAchievementIdentifier:@"HIGHSCORE_10000" percentComplete:100];
-    }
-    if ( highscore_check >= 100000 || score_game >= 100000  )
-    {
-        [user reportAchievementIdentifier:@"HIGHSCORE_100000" percentComplete:100];
-    }
-    if ( highscore_check_extreme >= 100000 || score_game > 100000 )
-    {
-        if ( game_mode == @"extreme")
-        {
-            [user reportAchievementIdentifier:@"EXTREME" percentComplete:100];
-        }
-    }
-    
-    if ( tweetCount >= 90 )
-    {
-        [user reportAchievementIdentifier:@"MAX_TWEETS" percentComplete:100];
-    }
-    
-    if (user.powerup_oneup >= 1 && user.powerup_bigger >= 1 && user.powerup_reverse
-        && user.powerup_score >= 1 && user.powerup_small >= 1 )
-    {
-        [user reportAchievementIdentifier:@"ALL_POWERUPS" percentComplete:100.0];
-    }
-    if ( score_game > highscore_check_extreme )
-    {
-        [prefs setInteger:score_game forKey:@"score_best"];
-        [prefs synchronize];
-        
-        if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
-        {
-            GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-            [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
-                if(localPlayer.isAuthenticated) 
-                {
-                    GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"2"];
-                    scoreReporter.value = score_game;
-                    
-                    [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
-                        if (error != nil)
-                        {
-                            // handle the reporting error
-                        }
-                    }];
-                }
-            }];
-        }
-        
-        label_score_best.text = [NSString stringWithFormat:@"%d",score_game];
-    }
-    else
-    {
-        label_score_best.text = [NSString stringWithFormat:@"%d",highscore_check_extreme];
-    }
-    
-    if ( score_game > highscore_check )
-    {
-        [prefs setInteger:score_game forKey:@"score_best"];
-        [prefs synchronize];
-        
-        if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
-        {
-            GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-            [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
-                if(localPlayer.isAuthenticated) 
-                {
-                    GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"1"];
-                    scoreReporter.value = score_game;
-                    
-                    [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
-                        if (error != nil)
-                        {
-                            // handle the reporting error
-                        }
-                    }];
-                }
-            }];
-        }
-                
-        label_score_best.text = [NSString stringWithFormat:@"%d",score_game];
-    }
-    else
-    {
-        label_score_best.text = [NSString stringWithFormat:@"%d",highscore_check];
-    }
-    
-    // gets the passed through score
-    label_score_game.text = [NSString stringWithFormat:@"%d",score_game];
+    user = [[User alloc] init];
     
     if ( game_mode != @"online" || tweet_data == NULL)
     {
@@ -269,22 +153,78 @@ UIImageView *avatarImageRetain;
         imgTweetsBg.hidden = YES;
         label_try_online.hidden = NO;
     }
+    
+    // new high score
+    int highscore_check = [user.udata integerForKey:@"HIGHSCORE_NORMAL"];
+    int highscore_check_extreme = [user.udata integerForKey:@"HIGHSCORE_EXTREME"];
+    
+    if ( score_game > 1000 ) [user reportAchievementIdentifier:@"ACH_HIGHSCORE_1000" percentComplete:100.0];
+    if ( score_game > 10000 ) [user reportAchievementIdentifier:@"ACH_HIGHSCORE_10000" percentComplete:100.0];
+    if ( score_game > 100000 ) [user reportAchievementIdentifier:@"ACH_HIGHSCORE_100000" percentComplete:100.0];   
+
+    if ( game_mode == @"extreme" )
+    {
+        if ( score_game > 50000 ) [user reportAchievementIdentifier:@"ACH_EXTREME" percentComplete:100.0];
+        if ( score_game > highscore_check_extreme )
+        {
+            [user.udata setInteger:score_game forKey:@"HIGHSCORE_EXTREME"];
+            [self reportHighscoreForCategory:@"2"];
+            [label_score_best setText:[NSString stringWithFormat:@"%d",score_game]];
+        }
+        else 
+        {
+            [label_score_best setText:[NSString stringWithFormat:@"%d",highscore_check_extreme]];
+        }
+    }
+    else 
+    {
+        if ( score_game > highscore_check )
+        {
+            [user.udata setInteger:score_game forKey:@"HIGHSCORE_NORMAL"];
+            [self reportHighscoreForCategory:@"1"];
+            [label_score_best setText:[NSString stringWithFormat:@"%d",score_game]];
+        }
+        else 
+        {
+            [label_score_best setText:[NSString stringWithFormat:@"%d",highscore_check]];
+        }
+    }
+
+    label_score_game.text = [NSString stringWithFormat:@"%d",score_game];
+    
+    [user.udata synchronize];    
 }
 
-
+- (void) reportHighscoreForCategory:(NSString*)category
+{
+    if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
+    {
+        GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+        [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
+            if(localPlayer.isAuthenticated) 
+            {
+                GKScore *scoreReporter = [[GKScore alloc] initWithCategory:category];
+                scoreReporter.value = score_game;
+                
+                [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+                    if (error != nil)
+                    {
+                        // handle the reporting error
+                    }
+                }];
+            }
+        }];
+    }
+}
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 
 @end

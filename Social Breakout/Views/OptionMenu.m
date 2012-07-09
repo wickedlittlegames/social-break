@@ -17,43 +17,27 @@
     int slider_progress = (int)slider.value;
     
     NSString *text_update = @"Extreme"; 
-    if (slider_progress <= 75)
-    {
-        text_update = @"High";
-    }
-    if (slider_progress <= 50)
-    {
-        text_update = @"Medium";
-    }
-    if (slider_progress <= 20) 
-    {
-        text_update = @"Low";
-    }
+    if (slider_progress <= 75) text_update = @"High";
+    if (slider_progress <= 50) text_update = @"Medium";
+    if (slider_progress <= 20) text_update = @"Low";
     
     NSString *text_update2 = [NSString stringWithFormat:@"%d", slider_progress];    
     tweetCountLabel.text = text_update;
     
-    [[NSUserDefaults standardUserDefaults] setValue:text_update2 forKey:@"tweetCount"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [user.udata setValue:text_update2 forKey:@"SETTING_TWEETCOUNT"];
+    [user.udata synchronize];
 }
 
 -(IBAction)tweetTimerSliderChanged:(id)sender
 {
     UISlider *slider = (UISlider *)sender;
     int slider_progress = (int)slider.value;
-    NSString *text_update;
-    if ( slider_progress == 1 )
-    {
-        text_update = [NSString stringWithFormat:@"%d second", slider_progress];
-    }
-    else
-    {
-        text_update = [NSString stringWithFormat:@"%d seconds", slider_progress];
-    }
+    NSString *text_update = ( slider_progress == 1 ? [NSString stringWithFormat:@"%d second", slider_progress] : [NSString stringWithFormat:@"%d seconds", slider_progress]);
     NSString *text_update2 = [NSString stringWithFormat:@"%d", slider_progress]; 
     tweetTimeLabel.text = text_update;
-    [[NSUserDefaults standardUserDefaults] setValue:text_update2 forKey:@"tweetTimer"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [user.udata setValue:text_update2 forKey:@"SETTING_READTIME"];
+    [user.udata synchronize];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -76,20 +60,14 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    int tweetCount = [[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetCount"] intValue];
-    int tweetTimer = [[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetTimer"] intValue];
+    user = [[User alloc] init];
+    
+    int tweetCount = [user.udata integerForKey:@"SETTING_TWEETCOUNT"];
+    int tweetTimer = [user.udata integerForKey:@"SETTING_READTIME"];
     
     NSString *tweetCountText = @"Extreme"; 
     if (tweetCount <= 75)

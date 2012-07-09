@@ -17,12 +17,13 @@
 @interface MainMenu : UIViewController <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
 {
     SimpleAudioEngine *audioPlayer;
-    User *user;
     CADisplayLink *displayLink;
+    
+    User *user;    
     Ball *ball;
 }
 
-@property (strong, nonatomic) IBOutlet UILabel *topScore, *lblStats;
+@property (strong, nonatomic) IBOutlet UILabel *topScore, *lblStats, *extremetopScore;
 @property (strong, nonatomic) IBOutlet UIButton *muteButton, *muteButtonMuted;
 
 - (IBAction)mute:(id)sender;
@@ -32,6 +33,7 @@
 - (IBAction)extremebuttonTapped:(id)sender;
 - (IBAction)clickLeaderboard:(id)sender;
 - (IBAction)clickAchievements:(id)sender;
+- (IBAction)clickSocialbreak:(id)sender;
 - (IBAction)resetAchievements:(id)sender;
 - (void) setDefaultOptions;
 

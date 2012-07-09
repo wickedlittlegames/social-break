@@ -34,6 +34,21 @@
                                     <action selector="tweetHighscore:" destination="JUD-9t-VHb" eventType="touchUpInside" id="VXN-jD-d0N"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mu0-eL-0aR">
+                                <rect key="frame" x="212" y="405" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="btn_sport.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clickSocialbreak:" destination="8Hk-ba-5I1" eventType="touchUpInside" id="1Te-r8-wxG"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5rA-Wl-diO">
                                 <rect key="frame" x="47" y="177" width="225" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -115,14 +130,25 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" lineBreakMode="tailTruncation" minimumFontSize="10" id="rjK-X3-vpb">
-                                <rect key="frame" x="65" y="440" width="140" height="28"/>
+                                <rect key="frame" x="104" y="447" width="104" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="label_best.png" id="D4g-5H-eJE">
-                                <rect key="frame" x="10" y="447" width="47" height="14"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" lineBreakMode="tailTruncation" minimumFontSize="10" id="m8w-ib-eHm">
+                                <rect key="frame" x="104" y="425" width="104" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="label_normal.png" id="D4g-5H-eJE">
+                                <rect key="frame" x="10" y="432" width="86" height="14"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="label_extreme.png" id="16Q-AD-PXq">
+                                <rect key="frame" x="10" y="454" width="86" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zcu-2I-LNw">
@@ -171,10 +197,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="til-um-K6m">
-                                <rect key="frame" x="10" y="400" width="164" height="37"/>
+                                <rect key="frame" x="77" y="374" width="164" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="reset achievements">
+                                <state key="normal" title="reset game">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -193,9 +219,10 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="extremetopScore" destination="rjK-X3-vpb" id="txy-E4-o9c"/>
                         <outlet property="muteButton" destination="vqH-0e-Xav" id="P2g-1C-hYN"/>
                         <outlet property="muteButtonMuted" destination="40v-xg-7p7" id="hRv-FI-C9P"/>
-                        <outlet property="topScore" destination="rjK-X3-vpb" id="7U2-IR-qVn"/>
+                        <outlet property="topScore" destination="m8w-ib-eHm" id="y8K-gg-uW6"/>
                     </connections>
                 </viewController>
             </objects>
@@ -292,11 +319,13 @@
         <image name="btn_online.png" width="225" height="56"/>
         <image name="btn_online_click.png" width="1911" height="474"/>
         <image name="btn_setting.png" width="30" height="31"/>
+        <image name="btn_sport.png" width="30" height="31"/>
         <image name="button_back.png" width="30" height="30"/>
         <image name="button_mute.png" width="359" height="363"/>
         <image name="button_mute_off.png" width="359" height="363"/>
         <image name="button_tweet.png" width="359" height="363"/>
-        <image name="label_best.png" width="74" height="22"/>
+        <image name="label_extreme.png" width="135" height="22"/>
+        <image name="label_normal.png" width="135" height="22"/>
         <image name="label_percentage2.png" width="221" height="14"/>
         <image name="label_seconds2.png" width="362" height="22"/>
     </resources>
@@ -306,12 +335,14 @@
             <relationships>
                 <relationship kind="action" name="clickAchievements:"/>
                 <relationship kind="action" name="clickLeaderboard:"/>
+                <relationship kind="action" name="clickSocialbreak:"/>
                 <relationship kind="action" name="extremebuttonTapped:"/>
                 <relationship kind="action" name="mute:"/>
                 <relationship kind="action" name="offlinebuttonTapped:"/>
                 <relationship kind="action" name="onlinebuttonTapped:"/>
                 <relationship kind="action" name="resetAchievements:"/>
                 <relationship kind="action" name="tweetHighscore:"/>
+                <relationship kind="outlet" name="extremetopScore" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="lblStats" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="muteButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="muteButtonMuted" candidateClass="UIButton"/>

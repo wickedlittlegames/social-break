@@ -9,95 +9,95 @@
 #import "User.h"
 
 @implementation User
-@synthesize udata, tweets_collected_overall,powerup_score,powerup_small,powerup_bigger,powerup_oneup,powerup_reverse,powerup_random;
+@synthesize udata, tweets_collected_overall;
+
+/* 
+    USER DATA
+    #SETTINGS#
+    - SETTING_TWEETCOUNT // user setting for how many tweets to show
+    - SETTING_READTIME   // user setting for the reading time
+    - SETTING_CREATED
+ 
+    #HIGHSCORES#
+    - HIGHSCORE_NORMAL   // highscore for normal mode
+    - HIGHSCORE_EXTREME  // highscore for extreme mode
+ 
+    #STATS#
+    - STAT_POWERUP_SCORE
+    - STAT_POWERUP_SMALLER
+    - STAT_POWERUP_BIGGER
+    - STAT_POWERUP_ONEUP
+    - STAT_POWERUP_REVERSE 
+    - STAT_POWERUP_RANDOM
+    - STAT_ONLINE_PLAYED
+    - STAT_OFFLINE_PLAYED
+    - STAT_EXTREME_PLAYED
+    - STAT_TWEETBLOCKS
+    - STAT_BLOCKS
+    - STAT_DIED
+    - STAT_MOSTLIVES 
+    
+    #ACHIEVEMENTS#
+    - ACH_HIGHSCORE_1000            // score over 1000 points [done]
+    - ACH_HIGHSCORE_10000           // score over 10000 points [done]
+    - ACH_HIGHSCORE_100000          // score over 100000 points [done]
+    - ACH_TWEETED                   // use the tweet button [done]
+    - ACH_TWEETBLOCK_HIT            // tweetblock is hit [done]
+    - ACH_100_TWEETBLOCK_HIT        // 100 tweetblocks hit [done]
+    - ACH_INDESTRUCTIBLE            // had over 10 lives at one point [done]
+    - ACH_EXTREME                   // scored 50,000 in extreme mode [done]
+    - ACH_EXTREME_ROUND             // played one full round of extreme [done]
+    - ACH_MAX_SPEED                 // max speed achieved
+*/
 
 -(User *) init {
     
     if((self = [super init])){   
         
-        if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"CREATED"] == FALSE )
+        udata = [NSUserDefaults standardUserDefaults];
+        
+        if ( [udata boolForKey:@"SETTING_CREATED"] == FALSE )
         {
-            [self create];
+            [udata setInteger:[udata integerForKey:@"tweetCount"] forKey:@"SETTING_TWEETCOUNT"];            
+            [udata setInteger:[udata integerForKey:@"tweetTimer"] forKey:@"SETTING_READTIME"];
+            [udata setBool:TRUE forKey:@"SETTING_CREATED"];
+            [udata setBool:[udata boolForKey:@"muted"] forKey:@"SETTING_MUTED"];
+            
+            [udata setInteger:[udata integerForKey:@"score_best"] forKey:@"HIGHSCORE_NORMAL"];
+            [udata setInteger:0 forKey:@"HIGHSCORE_EXTREME"];
+            
+            [udata setInteger:0 forKey:@"STAT_POWERUP_SCORE"];
+            [udata setInteger:0 forKey:@"STAT_POWERUP_SMALLER"];
+            [udata setInteger:0 forKey:@"STAT_POWERUP_BIGGER"];
+            [udata setInteger:0 forKey:@"STAT_POWERUP_ONEUP"];
+            [udata setInteger:0 forKey:@"STAT_POWERUP_REVERSE"];
+            [udata setInteger:0 forKey:@"STAT_POWERUP_RANDOM"];
+            [udata setInteger:0 forKey:@"STAT_ONLINE_PLAYED"];
+            [udata setInteger:0 forKey:@"STAT_OFFLINE_PLAYED"];
+            [udata setInteger:0 forKey:@"STAT_EXTREME_PLAYED"];
+            [udata setInteger:0 forKey:@"STAT_TWEETBLOCKS"];
+            [udata setInteger:0 forKey:@"STAT_BLOCKS"];
+            [udata setInteger:0 forKey:@"STAT_DIED"];
+            [udata setInteger:0 forKey:@"STAT_MOSTLIVES"];        
+            
+            [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_1000"];
+            [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_10000"];
+            [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_100000"];
+            [udata setBool:FALSE forKey:@"ACH_TWEETED"];
+            [udata setBool:FALSE forKey:@"ACH_TWEETBLOCK_HIT"];
+            [udata setBool:FALSE forKey:@"ACH_100_TWEETBLOCK_HIT"];
+            [udata setBool:FALSE forKey:@"ACH_INDESTRUCTIBLE"];
+            [udata setBool:FALSE forKey:@"ACH_EXTREME"];
+            [udata setBool:FALSE forKey:@"ACH_EXTREME_ROUND"];
+            [udata setBool:FALSE forKey:@"ACH_MAX_SPEED"];
+
+            [udata synchronize];
         }
         
-        self.powerup_score = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SCORE"];
-        self.powerup_small = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SMALL"];
-        self.powerup_bigger = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_BIGGER"];
-        self.powerup_oneup = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_ONEUP"];
-        self.powerup_reverse = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_REVERSE"];
-        self.powerup_random = [[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_RANDOM"];
-
-        self.tweets_collected_overall = [[NSUserDefaults standardUserDefaults] integerForKey:@"TWEETS_COLLECTED"];
-        
-        [self _log];
+        self.tweets_collected_overall = [udata integerForKey:@"STAT_TWEETBLOCKS"];
     }
     
     return self;
-}
-
-- (void) create 
-{
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"TWEETS_COLLECTED"];
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"CREATED"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_SCORE"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_SMALL"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_BIGGER"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_ONEUP"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_REVERSE"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"POWERUP_RANDOM"];
-    
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_1000"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_10000"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"HIGHSCORE_100000"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"MAX_TWEETS"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"SPIN"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEETS_COLLECTED"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEETED"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"TWEET_BLOCK_HIT"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"ALL_POWERUPS"];
-    [[NSUserDefaults standardUserDefaults] setBool:FALSE forKey:@"INDESTRUCTABLE"];    
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void) reset
-{
-    [self create];
-}
-
-- (void) _log
-{
-    NSLog(@"TWEETS_COLLECTED: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"TWEETS_COLLECTED"]);
-    NSLog(@"CREATED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"CREATED"]);
-    NSLog(@"POWERUP_SCORE: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SCORE"]);
-    NSLog(@"POWERUP_SMALL: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_SMALL"]);
-    NSLog(@"POWERUP_BIGGER: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_BIGGER"]);
-    NSLog(@"POWERUP_ONEUP: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_ONEUP"]);
-    NSLog(@"POWERUP_REVERSE: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_REVERSE"]);
-    NSLog(@"POWERUP_RANDOM: %i",[[NSUserDefaults standardUserDefaults] integerForKey:@"POWERUP_RANDOM"]);
-    
-    NSLog(@"HIGHSCORE_1000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_1000"]);    
-    NSLog(@"HIGHSCORE_10000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_10000"]);    
-    NSLog(@"HIGHSCORE_100000: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_100000"]);    
-    NSLog(@"MAX_TWEETS: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"MAX_TWEETS"]);    
-    NSLog(@"SPIN: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"SPIN"]);    
-    NSLog(@"TWEETS_COLLECTED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETS_COLLECTED"]);    
-    NSLog(@"TWEETED: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETED"]);    
-    NSLog(@"TWEET_BLOCK_HIT: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"TWEET_BLOCK_HIT"]);    
-    NSLog(@"ALL_POWERUPS: %i",[[NSUserDefaults standardUserDefaults] boolForKey:@"ALL_POWERUPS"]);    
-}
-
-- (void) sync
-{
-    [[NSUserDefaults standardUserDefaults] setInteger:self.tweets_collected_overall forKey:@"TWEETS_COLLECTED"];
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_score forKey:@"POWERUP_SCORE"];
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_small forKey:@"POWERUP_SMALL"];
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_bigger forKey:@"POWERUP_BIGGER"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_oneup forKey:@"POWERUP_ONEUP"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_reverse forKey:@"POWERUP_REVERSE"];    
-    [[NSUserDefaults standardUserDefaults] setInteger:self.powerup_random forKey:@"POWERUP_RANDOM"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) reportAchievementIdentifier: (NSString*) identifier percentComplete: (float) percent
@@ -123,74 +123,150 @@
                      {
                          if ( percent == 100.0 )
                          {   
-                             if (identifier == @"MAX_TWEETS" && [[NSUserDefaults standardUserDefaults] boolForKey:@"MAX_TWEETS"] == FALSE)
+                             if ( identifier == @"ACH_HIGHSCORE_1000" )
                              {
-                                [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Extreme Social Breaker" andMessage:@"You are an EXTREME Social Breaker"];
-                                [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"MAX_TWEETS"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                        notifyAchievementTitle:@"CASUAL" 
+                                        andMessage:@"Scored higher than 1000 points!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"HIGHSCORE_1000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_1000"] == FALSE)
+                             if ( identifier == @"ACH_HIGHSCORE_10000" )
                              {
-                                 NSLog(@"DO THIS!!");
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_1000"];                                                                  
-                                  [[NSUserDefaults standardUserDefaults] synchronize];
-                                 [self _log];
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Casual" andMessage:@"Score 1000 points or more."];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"ADDICTED" 
+                                      andMessage:@"Scored higher than 10000 points!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"HIGHSCORE_10000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_10000"] == FALSE)
+                             if ( identifier == @"ACH_HIGHSCORE_100000" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Addicted" andMessage:@"Score 10000 points or more."];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_10000"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"HARDCORE" 
+                                      andMessage:@"Scored higher than 100000 points!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"HIGHSCORE_100000" && [[NSUserDefaults standardUserDefaults] boolForKey:@"HIGHSCORE_100000"] == FALSE)
+                             if ( identifier == @"ACH_TWEETED" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Hardcore" andMessage:@"Score 100000 points or more."];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"HIGHSCORE_100000"];
-                             }                             
-                             if (identifier == @"SPIN" && [[NSUserDefaults standardUserDefaults] boolForKey:@"SPIN"] == FALSE)
-                             {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"You've Played This Before" andMessage:@"Spin the ball!"];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"SPIN"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"SPREAD THE WORD" 
+                                      andMessage:@"You tweeted your score!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"TWEETS_COLLECTED" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETS_COLLECTED"] == FALSE)
+                             if ( identifier == @"ACH_TWEETBLOCK_HIT" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Who Needs TweetDeck?" andMessage:@"You collected more than 100 tweets in Online Mode!"];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEETS_COLLECTED"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"SOCIAL BREAKER" 
+                                      andMessage:@"You hit a Tweet Block!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"TWEETED" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEETED"] == FALSE)
+                             if ( identifier == @"ACH_100_TWEETBLOCK_HIT" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Spread The Word!" andMessage:@"You tweeted your high-score to all your friends!"];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEETED"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"MEGA SOCIAL BREAKER" 
+                                      andMessage:@"You hit over 100 Tweet Blocks!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"TWEET_BLOCK_HIT" && [[NSUserDefaults standardUserDefaults] boolForKey:@"TWEET_BLOCK_HIT"] == FALSE)
+                             if ( identifier == @"ACH_INDESTRUCTIBLE" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Social Breaker" andMessage:@"You collected a tweet by hitting a tweet block!"];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TWEET_BLOCK_HIT"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"INDESTRUCTIBLE" 
+                                      andMessage:@"You collected more than 10 lives!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             if (identifier == @"INDESTRUCTABLE" && [[NSUserDefaults standardUserDefaults] boolForKey:@"INDESTRUCTABLE"] == FALSE)
+                             if ( identifier == @"ACH_EXTREME_ROUND" )
                              {
-                                 [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Indestructible" andMessage:@"You managed to hold on to 10 lives!"];
-                                 [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"INDESTRUCTABLE"];
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"ALMOST EXTREME SOCIAL BREAKER" 
+                                      andMessage:@"You completed a full round of EXTREME MODE!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
                              }
-                             //if (identifier == @"ALL_POWERUPS" && [[NSUserDefaults standardUserDefaults] boolForKey:@"ALL_POWERUPS"] == FALSE)
-                             //{
-                             //    [[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"Collector" andMessage:@"You have collected one of each of the powerups!"];
-                             //    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"ALL_POWERUPS"];
-                             //}
-                             [[NSUserDefaults standardUserDefaults] synchronize];
-                            
+                             if ( identifier == @"ACH_EXTREME" )
+                             {
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"EXTREME SOCIAL BREAKER" 
+                                      andMessage:@"Whoa! You scored more than 50,000 in EXTREME MODE!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
+                             }   
+                             if ( identifier == @"ACH_MAX_SPEED" )
+                             {
+                                 if ( ![udata boolForKey:identifier] )
+                                 {
+                                     [[GKAchievementHandler defaultHandler] 
+                                      notifyAchievementTitle:@"SPEEDY" 
+                                      andMessage:@"You achieved maximum velocity!"];
+                                     [udata setBool:TRUE forKey:identifier];
+                                 }
+                             }
+                             [udata synchronize];
                          }
                      }
                  }];
                 }
             }
-        
         }
-        
     }];
 }
 
 - (void) resetAchievements
 {
+    [udata setInteger:[udata integerForKey:@"tweetCount"] forKey:@"SETTING_TWEETCOUNT"];            
+    [udata setInteger:[udata integerForKey:@"tweetTimer"] forKey:@"SETTING_READTIME"];
+    [udata setBool:FALSE forKey:@"SETTING_CREATED"];
+    [udata setBool:TRUE forKey:@"SETTING_MUTED"];
+    
+    [udata setInteger:0 forKey:@"HIGHSCORE_NORMAL"];
+    [udata setInteger:0 forKey:@"HIGHSCORE_EXTREME"];
+    
+    [udata setInteger:0 forKey:@"STAT_POWERUP_SCORE"];
+    [udata setInteger:0 forKey:@"STAT_POWERUP_SMALLER"];
+    [udata setInteger:0 forKey:@"STAT_POWERUP_BIGGER"];
+    [udata setInteger:0 forKey:@"STAT_POWERUP_ONEUP"];
+    [udata setInteger:0 forKey:@"STAT_POWERUP_REVERSE"];
+    [udata setInteger:0 forKey:@"STAT_POWERUP_RANDOM"];
+    [udata setInteger:0 forKey:@"STAT_ONLINE_PLAYED"];
+    [udata setInteger:0 forKey:@"STAT_OFFLINE_PLAYED"];
+    [udata setInteger:0 forKey:@"STAT_EXTREME_PLAYED"];
+    [udata setInteger:0 forKey:@"STAT_TWEETBLOCKS"];
+    [udata setInteger:0 forKey:@"STAT_BLOCKS"];
+    [udata setInteger:0 forKey:@"STAT_DIED"];
+    [udata setInteger:0 forKey:@"STAT_MOSTLIVES"];        
+    
+    [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_1000"];
+    [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_10000"];
+    [udata setBool:FALSE forKey:@"ACH_HIGHSCORE_100000"];
+    [udata setBool:FALSE forKey:@"ACH_TWEETED"];
+    [udata setBool:FALSE forKey:@"ACH_TWEETBLOCK_HIT"];
+    [udata setBool:FALSE forKey:@"ACH_100_TWEETBLOCK_HIT"];
+    [udata setBool:FALSE forKey:@"ACH_INDESTRUCTIBLE"];
+    [udata setBool:FALSE forKey:@"ACH_EXTREME"];
+    [udata setBool:FALSE forKey:@"ACH_EXTREME_ROUND"];
+    [udata setBool:FALSE forKey:@"ACH_MAX_SPEED"];
     [GKAchievement resetAchievementsWithCompletionHandler:^(NSError *error){}];
 }
 

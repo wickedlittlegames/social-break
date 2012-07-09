@@ -10,7 +10,7 @@
 
 
 @implementation MainMenu
-@synthesize topScore, muteButton, muteButtonMuted, lblStats;
+@synthesize topScore, muteButton, muteButtonMuted, lblStats, extremetopScore;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
@@ -29,7 +29,6 @@
     if ( [TWTweetComposeViewController canSendTweet] ) 
     {
         [FlurryAnalytics logEvent:@"Online Mode Played"];
-        [FlurryAnalytics logEvent:@"Online Game Time" timed:YES];
         Game *gameViewController = [[Game alloc] initWithNibName:@"Game" bundle:[NSBundle mainBundle] gameMode:@"online"];
         gameViewController.modalTransitionStyle = transition;
         [self presentViewController:gameViewController animated:YES completion:nil];
@@ -53,7 +52,6 @@
 - (IBAction)offlinebuttonTapped:(id)sender 
 {
     [FlurryAnalytics logEvent:@"Offline Mode Player"];
-    [FlurryAnalytics logEvent:@"Offline Game Time" timed:YES];    
     Game *gameViewController = [[Game alloc] initWithNibName:@"Game" bundle:[NSBundle mainBundle] gameMode:@"offline"];
     gameViewController.modalTransitionStyle = transition;
     [self presentViewController:gameViewController animated:YES completion:nil];
@@ -74,29 +72,6 @@
 
 - (void) setDefaultOptions 
 {
-    // tweet count
-    if ( [[NSUserDefaults standardUserDefaults] valueForKey:@"tweetCount"] == NULL ) 
-    {
-        [[NSUserDefaults standardUserDefaults] setValue:@"30" forKey:@"tweetCount"];
-    }
-    
-    // tweet timer
-    if ( [[NSUserDefaults standardUserDefaults] valueForKey:@"tweetTimer"] == NULL ) 
-    {
-        [[NSUserDefaults standardUserDefaults] setValue:@"3" forKey:@"tweetTimer"];
-    }
-
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    int highscore_check = [prefs integerForKey:@"score_best"];
-    
-    if ( highscore_check > 0 )
-    {
-        topScore.text = [NSString stringWithFormat:@"%d",highscore_check];
-    }
-    else
-    {
-        topScore.text = @"0";
-    }
     
 }
 
@@ -135,15 +110,14 @@
         // Create the view controller
         TWTweetComposeViewController *twitter = [[TWTweetComposeViewController alloc] init];
         
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        int highscore_check = [prefs integerForKey:@"score_best"];
+        int highscore_check = [user.udata integerForKey:@"HIGHSCORE_NORMAL"];
         
         // Optional: set an image, url and initial text
         [twitter setInitialText:[NSString stringWithFormat:@"My top score on Social Break is %d points. Try to beat me whilst checking Twitter at the same time! #socialbreak http://bit.ly/socialbreak", highscore_check]];
         
         // Show the controller
         [self presentModalViewController:twitter animated:YES];
-        [user reportAchievementIdentifier:@"TWEETED" percentComplete:100.0];
+        [user reportAchievementIdentifier:@"ACH_TWEETED" percentComplete:100.0];
     }
     else
     {
@@ -163,23 +137,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    lblStats.text = [NSString stringWithFormat:@"%i powerups collected",user.tweets_collected_overall];
-    
+
     // Set up the ball
     ball = [[Ball alloc ] initWithPosition:CGPointMake(80, 280)];
     [self.view addSubview:ball];
     
     user = [[User alloc] init];
     
-    [self setDefaultOptions];
+    topScore.text = [NSString stringWithFormat:@"%d",[user.udata integerForKey:@"HIGHSCORE_NORMAL"]];
+    extremetopScore.text = [NSString stringWithFormat:@"%d",[user.udata integerForKey:@"HIGHSCORE_EXTREME"]];
     
     if ( ![SimpleAudioEngine sharedEngine].isBackgroundMusicPlaying )
     {
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"void.mp3" loop:YES];
     }
     
-	[SimpleAudioEngine sharedEngine].mute = [[NSUserDefaults standardUserDefaults] boolForKey:@"muted"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+	[SimpleAudioEngine sharedEngine].mute = [user.udata boolForKey:@"SETTING_MUTED"];
     
     if ( [SimpleAudioEngine sharedEngine].mute )
     {
@@ -200,7 +173,6 @@
 
         if(localPlayer.isAuthenticated) 
         {
-
             GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"1"];
             scoreReporter.value = highscore_check;
             
@@ -217,15 +189,13 @@
 
 - (IBAction)resetAchievements:(id)sender
 {
-    [user reset];
     [user resetAchievements];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(gameLoop:)];
-[displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (IBAction)clickLeaderboard:(id)sender
@@ -240,6 +210,11 @@
     [displayLink invalidate];
     displayLink = nil;
     [self showAchievements];
+}
+
+- (IBAction)clickSocialbreak:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/wickedlittlegames/socialbreaksportsedition"]];
 }
 
 - (void)viewDidUnload
@@ -261,7 +236,6 @@
 	GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
 	if (leaderboardController != NULL) 
 	{
-		leaderboardController.category = @"1";
 		leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
 		leaderboardController.leaderboardDelegate = self; 
 		[self presentModalViewController: leaderboardController animated: YES];

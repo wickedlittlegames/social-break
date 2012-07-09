@@ -31,15 +31,25 @@
 
 #define transition UIModalTransitionStyleCrossDissolve
 
-@interface Game : UIViewController 
+@interface Game : UIViewController
 {
-    int score, scoreMultiplier, lives, powerup_countdown;
-    BOOL is_gameover, is_online, is_twitter_down, has_respawned, is_extreme;
-    NSMutableArray *blocks, *powerups, *tweet_data;
+    CADisplayLink *displayLink;
+
+    int score, scoreMultiplier, lives, powerup_countdown, powerupCount, paddlehitCount, loaderCount, powerupTimer;
+    
+    int tmp_stat_powerup_score, tmp_stat_powerup_smaller, tmp_stat_powerup_bigger, tmp_stat_powerup_oneup;
+    int tmp_stat_powerup_reverse, tmp_stat_powerup_random, tmp_stat_tweetblocks, tmp_stat_blocks, tmp_stat_died, tmp_stat_mostlives;
+    
+    BOOL is_gameover, is_online, is_twitter_down, has_respawned, is_extreme, powerupActive, playerDied, reverseMode;
+    float audioPitch;
+    
+    NSMutableArray *blocks, *powerups, *tweet_data,*collected_tweets, *paddle_positions;
+    NSTimer *timer_placeBlocks, *timer_effects;
+    NSString *scoreExtraText;
+    
     Paddle *paddle;
     Ball *ball;
     Powerup *powerup;
-    CADisplayLink *displayLink;
     User *user;
 }
 

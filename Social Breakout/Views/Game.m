@@ -9,16 +9,10 @@
 #import "Game.h"
 
 // timer implementations
-NSTimer *timer_placeBlocks, *timer_effects;
-NSMutableArray *collected_tweets, *paddle_positions;
-int powerupCount, paddlehitCount, loaderCount, powerupTimer;
-bool powerupActive, playerDied, reverseMode;
-float audioPitch;
-NSString *scoreExtraText;
+
 
 @implementation Game
 @synthesize scoreLabel, livesLabel, playPauseButton, gameOverLabel, playToRestartLabel, tweetTextLabel, loadingScreen, powerupLabel, border_nlol, border_plol, pausedImage, exitButton, tweetPanel, tweetUserLabel, tweetAvatar, spinner, tweetDateLabel, gameModeLabel;
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil gameMode:(NSString*)gameMode
 {
@@ -36,7 +30,6 @@ NSString *scoreExtraText;
         
         user = [[User alloc] init];
         
-        // Custom initialization
         // Setting up the UI stuff
         score = 0;
         loaderCount = 0;
@@ -56,34 +49,17 @@ NSString *scoreExtraText;
         powerupTimer = 5;
         reverseMode = NO;
         
-        if ( is_extreme ) 
-        {
-            lives = setting_extreme_starting_lives;
-        }
-        
-        
-        
-        ////NSLog(@"UI Elements set up");
-        
         // Setup the blocks
         blocks = [NSMutableArray arrayWithCapacity:setting_block_max];
         
-        ////NSLog(@"Blocks Array Set up: %@", blocks);
-        
         // Set up the collected tweets array
         collected_tweets = [[NSMutableArray alloc] init];
-        
         paddle_positions = [[NSMutableArray alloc] initWithCapacity:5];
-        
-        ////NSLog(@"NSArray for collected tweets set up");
-        
-        
+    
         // Set up the paddle
         paddle = (Paddle *)[Paddle blockAtPosition:CGPointMake(160, 385) withImageNamed:@"paddle.png"];
         paddle.hidden = YES;
         [self.view addSubview:paddle];
-        
-        //NSLog(@"Paddle Initiated");
         
         // Set up the ball
         ball = [[Ball alloc ] initWithPosition:CGPointMake(80, 280)];
@@ -91,14 +67,15 @@ NSString *scoreExtraText;
         ball.tweetPanelAnimating = NO;
         [self.view addSubview:ball];
         
-        livesLabel.text = [NSString stringWithFormat:@"%d",lives];        
+        if ( is_extreme ) 
+        {
+            lives = setting_extreme_starting_lives;
+            [paddle decreaseSize];
+            ball.speed = CGPointMake(4,4);
+        }
+        livesLabel.text = [NSString stringWithFormat:@"%d",lives];
         
-        //NSLog(@"Ball initiated");        
-        
-        //NSLog(@"+ Spawning Blocks...");
         [self spawnBlocks];
-        
-        //NSLog(@"- Spawning Blocks Finished");        
     }
     
     return self;
@@ -106,12 +83,8 @@ NSString *scoreExtraText;
 
 - (void) spawnBlocks
 {
-    //NSLog(@"Is Online?: %d",is_online);
-    
     if ( is_online )
     {
-        //NSLog(@"Doing the Twitter/Online one");
-        
         // call to twitter to get the latest 100 tweets
         ACAccountStore *store = [[ACAccountStore alloc] init];
         ACAccountType *twitterAccountType = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
@@ -192,18 +165,13 @@ NSString *scoreExtraText;
                  }
              }
          }];
-        
-        //NSLog(@"Should have caught the tweets: %@",tweet_data);
     }
-    
-    //NSLog(@"Starting timer to place blocks...");
     
     timer_placeBlocks = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                          target:self
                                                        selector:@selector(placeBlocks)
                                                        userInfo:nil
                                                         repeats:YES];
-
 }
 
 - (void) placeBlocks
@@ -329,16 +297,12 @@ NSString *scoreExtraText;
         
         if ( [blocks count] == 0 && ball.nextPosition.y > config_block_line && has_respawned == NO)
         {
-            //NSLog(@"Respawning the blocks");
             has_respawned = YES;
             spinner.hidden = NO;
             [spinner startAnimating];
             playerDied = YES;
             [self playPause];
-            if ( is_extreme ) 
-            {
-                [user reportAchievementIdentifier:@"EXTREME_MODE_ROUND_COMPLETE" percentComplete:100.0];
-            }
+            if ( is_extreme ) [user reportAchievementIdentifier:@"ACH_EXTREME_ROUND" percentComplete:100.0];
             [self spawnBlocks];
         }
         
@@ -349,25 +313,29 @@ NSString *scoreExtraText;
             paddlehitCount++;
             
             if ( ![SimpleAudioEngine sharedEngine].mute )
+            {
                 [[SimpleAudioEngine sharedEngine] playEffect:@"bong.mp3" pitch:0.75 pan:1 gain:1];
+            }
             
-            
-            
-            if(ball.speed.x < 8)
+            if(ball.speed.x <= 8)
+            {
                 ball.speed = CGPointMake(ball.speed.x + 0.03, ball.speed.y + 0.03);
+            }
+            
+            if(ball.speed.x == 8)
+            {
+                [user reportAchievementIdentifier:@"ACH_MAX_SPEED" percentComplete:100.0];
+            }
             
             float movement_amount = 0.0;
             
             if ( paddle_positions.count > 0 )
             {
-                // get first and last values, remove last for first, add that onto the bounce factor. boom.
                 id first_id = [paddle_positions objectAtIndex:0];
                 id last_id  = [paddle_positions objectAtIndex:(paddle_positions.count-1)];
                 
                 movement_amount = [last_id floatValue] - [first_id floatValue];
                 movement_amount = movement_amount / 100;
-                
-                //[user reportAchievementIdentifier:@"SPIN" percentComplete:100];
             }
             
             ball.direction = CGPointMake(ball.direction.x * (1.0), ball.direction.y * (-1.0));
@@ -397,8 +365,10 @@ NSString *scoreExtraText;
                     // Collect the tweets to send over to GO screen
                     [collected_tweets addObject:block.tweet_data];
                     user.tweets_collected_overall++;
-                    [user reportAchievementIdentifier:@"TWEETS_COLLECTED" percentComplete:user.tweets_collected_overall];
-                    [user reportAchievementIdentifier:@"TWEET_BLOCK_HIT" percentComplete:100.0];
+                    tmp_stat_blocks++;
+                    
+                    [user reportAchievementIdentifier:@"ACH_100_TWEETBLOCK_HIT" percentComplete:user.tweets_collected_overall];
+                    [user reportAchievementIdentifier:@"ACH_TWEETBLOCK_HIT" percentComplete:100.0];
                     
                     if( ball.tweetPanelAnimating == NO ) 
                     {
@@ -476,7 +446,6 @@ NSString *scoreExtraText;
                     scoreExtraText = @"(2x)";
                     scoreLabel.text = [NSString stringWithFormat:@"%d %@",score,scoreExtraText];
                     border_plol.hidden = NO;
-                    user.powerup_score++;
                     break;
                     
                     // smaller paddle
@@ -484,7 +453,6 @@ NSString *scoreExtraText;
                     [FlurryAnalytics logEvent:@"Powerup Activated: Smaller Paddle"];
                     [paddle decreaseSize];
                     border_nlol.hidden = NO;
-                    user.powerup_small++;
                     break;
                     
                     // bigger paddle
@@ -492,21 +460,15 @@ NSString *scoreExtraText;
                     [FlurryAnalytics logEvent:@"Powerup Activated: Bigger Paddle"];
                     [paddle increaseSize];
                     border_plol.hidden = NO;
-                    user.powerup_bigger++;
                     break;
                     
                     // extra life
                 case 3:
                     [FlurryAnalytics logEvent:@"Powerup Activated: Extra Life"];
                     lives++;
-                    if (lives >= 10 )
-                    {
-                        [user reportAchievementIdentifier:@"INDESTRUCTABLE" percentComplete:100.0];
-                    }
                     powerupTimer = 1;
                     border_plol.hidden = NO;
                     livesLabel.text = [NSString stringWithFormat:@"%d",lives];
-                    user.powerup_oneup++;
                     break;
                     
                     // reverse paddle
@@ -515,7 +477,6 @@ NSString *scoreExtraText;
                     powerupTimer = 5;
                     border_nlol.hidden = NO;
                     reverseMode = YES;
-                    user.powerup_reverse++;
                     break;
                     
                 default:
@@ -539,7 +500,7 @@ NSString *scoreExtraText;
         }
         if ( lives >= 10 )
         {
-            [user reportAchievementIdentifier:@"INDESTRUCTABLE" percentComplete:100];
+            [user reportAchievementIdentifier:@"ACH_INDESTRUCTIBLE" percentComplete:100];
         }
         [ball update];
     }
@@ -656,16 +617,33 @@ NSString *scoreExtraText;
 
 - (void) gameOver 
 {
-    [user sync];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_BLOCKS"] + tmp_stat_blocks) forKey:@"STAT_BLOCKS"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_BIGGER"] + tmp_stat_powerup_bigger) forKey:@"STAT_POWERUP_BIGGER"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_ONEUP"] + tmp_stat_powerup_oneup) forKey:@"STAT_POWERUP_ONEUP"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_RANDOM"] + tmp_stat_powerup_random) forKey:@"STAT_POWERUP_RANDOM"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_REVERSE"] + tmp_stat_powerup_reverse) forKey:@"STAT_POWERUP_REVERSE"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_SCORE"] + tmp_stat_powerup_score) forKey:@"STAT_POWERUP_SCORE"];
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_POWERUP_SMALLER"] + tmp_stat_powerup_smaller) forKey:@"STAT_POWERUP_SMALLER"];    
+    [user.udata setInteger:([user.udata integerForKey:@"STAT_DIED"] + tmp_stat_died) forKey:@"STAT_BLOCKS"];
+    [user.udata setInteger:tmp_stat_mostlives forKey:@"STAT_MOSTLIVES"];    
+    
+    if ( is_online )
+    {
+        [user.udata setInteger:([user.udata integerForKey:@"STAT_ONLINE_PLAYED"] + 1) forKey:@"STAT_ONLINE_PLAYED"];
+    }
+    else if ( is_extreme )
+    {
+        [user.udata setInteger:([user.udata integerForKey:@"STAT_EXTREME_PLAYED"] + 1) forKey:@"STAT_EXTREME_PLAYED"];            
+    }
+    else 
+    {
+        [user.udata setInteger:([user.udata integerForKey:@"STAT_OFFLINE_PLAYED"] + 1) forKey:@"STAT_OFFLINE_PLAYED"];
+    }
+    
+    [user.udata synchronize];
     
     [FlurryAnalytics logEvent:@"Game Over"];
-    if (is_online) 
-    {
-        [FlurryAnalytics endTimedEvent:@"Online Game Time" withParameters:nil];
-    }
-    else {
-        [FlurryAnalytics endTimedEvent:@"Offline Game Time" withParameters:nil];
-    }
+
     // grab the new view controller
     GameOver *gameOverViewController = [[GameOver alloc] initWithNibName:@"GameOver" bundle:[NSBundle mainBundle]];
     
@@ -687,14 +665,6 @@ NSString *scoreExtraText;
 
 - (IBAction) exitGame
 {
-    if (is_online) 
-    {
-        [FlurryAnalytics endTimedEvent:@"Online Game Time" withParameters:nil];
-    }
-    else {
-        [FlurryAnalytics endTimedEvent:@"Offline Game Time" withParameters:nil];
-    }
-    
     loadingScreen.hidden = NO;
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -734,13 +704,6 @@ NSString *scoreExtraText;
 	[self touchesBegan:touches withEvent:event];
 }
 
-
-
-
-
-
-
-
 /* IOS SPECFIC METHODS */
 
 - (void)didReceiveMemoryWarning
@@ -752,21 +715,6 @@ NSString *scoreExtraText;
 }
 
 #pragma mark - View lifecycle
-
-/*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
-
-/*
- // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
- - (void)viewDidLoad
- {
- [super viewDidLoad];
- }
- */
 
 - (void)viewDidUnload
 {

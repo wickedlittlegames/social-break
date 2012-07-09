@@ -41,7 +41,6 @@
     }
     
     return self;
-    
 }
 
 - (Block *) initAtPosition:(CGPoint) position withImageNamed:(NSString *) imgName {
