@@ -149,7 +149,7 @@ UIImageView *avatarImageRetain;
                                 panelImage, @"panelImage", 
                                 avatarImage, @"avatarImage", nil];
         
-        slowMoTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetTimer"] intValue]
+        slowMoTimer = [NSTimer scheduledTimerWithTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"SETTING_READTIME"]
                                                        target:self
                                                      selector:@selector(slowMoEnd:)
                                                      userInfo:values

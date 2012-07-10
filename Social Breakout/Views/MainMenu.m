@@ -70,31 +70,26 @@
     displayLink = nil;
 }
 
-- (void) setDefaultOptions 
-{
-    
-}
-
 - (IBAction)mute:(id)sender
 {
-    bool current_mute_status = [[NSUserDefaults standardUserDefaults] boolForKey:@"muted"];
+    bool current_mute_status = [user.udata boolForKey:@"SETTING_MUTED"];
     
     if ( current_mute_status == 0 )
     {
         muteButton.hidden = YES;
         muteButtonMuted.hidden = NO;
         [SimpleAudioEngine sharedEngine].mute = YES;
-        [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"muted"];
+        [user.udata setBool:TRUE forKey:@"SETTING_MUTED"];
     }
     else
     {
         muteButton.hidden = NO;
         muteButtonMuted.hidden = YES;
         [SimpleAudioEngine sharedEngine].mute = NO;        
-        [[NSUserDefaults standardUserDefaults] setBool:0 forKey:@"muted"];
+        [user.udata setBool:FALSE forKey:@"SETTING_MUTED"];
     }
 
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [user.udata synchronize];
 }
 
 
@@ -165,8 +160,7 @@
     
     if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
     {
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        int highscore_check = [prefs integerForKey:@"score_best"];
+        int highscore_check = [user.udata integerForKey:@"HIGHSCORE_NORMAL"];
         
         GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
         [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
@@ -183,6 +177,28 @@
                 }
             }];
         }
+        }];
+    }
+    
+    if([[[UIDevice currentDevice] systemVersion] compare:@"4.3" options:NSNumericSearch] == NSOrderedDescending)
+    {
+        int highscore_check = [user.udata integerForKey:@"HIGHSCORE_EXTREME"];
+        
+        GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+        [localPlayer authenticateWithCompletionHandler:^(NSError *error) {
+            
+            if(localPlayer.isAuthenticated) 
+            {
+                GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"2"];
+                scoreReporter.value = highscore_check;
+                
+                [scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+                    if (error != nil)
+                    {
+                        // handle the reporting error
+                    }
+                }];
+            }
         }];
     }
 }

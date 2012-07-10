@@ -66,8 +66,8 @@
     [super viewDidLoad];
     user = [[User alloc] init];
     
-    int tweetCount = [user.udata integerForKey:@"SETTING_TWEETCOUNT"];
-    int tweetTimer = [user.udata integerForKey:@"SETTING_READTIME"];
+    int tweetCount = ([user.udata integerForKey:@"SETTING_TWEETCOUNT"] ? [user.udata integerForKey:@"SETTING_TWEETCOUNT"] : 40);
+    int tweetTimer = ([user.udata integerForKey:@"SETTING_READTIME"] ? [user.udata integerForKey:@"SETTING_READTIME"] : 3);
     
     NSString *tweetCountText = @"Extreme"; 
     if (tweetCount <= 75)

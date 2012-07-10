@@ -53,11 +53,12 @@
     User *user;
 }
 
-// Outlets
+// Outlets extremeLabel
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel, *powerupLabel, *livesLabel, *gameOverLabel, *playToRestartLabel, *tweetTextLabel, *tweetUserLabel, *tweetDateLabel, *gameModeLabel;
 @property (strong, nonatomic) IBOutlet UIButton *playPauseButton, *exitButton;
 @property (strong, nonatomic) IBOutlet UIImageView *loadingScreen, *border_nlol, *border_plol, *tweetPanel, *tweetAvatar, *pausedImage;
+@property (strong, nonatomic) IBOutlet UIImageView *extremeLabel;
 
 // Actions
 - (IBAction) playPause;

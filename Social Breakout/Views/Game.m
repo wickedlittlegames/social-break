@@ -12,7 +12,7 @@
 
 
 @implementation Game
-@synthesize scoreLabel, livesLabel, playPauseButton, gameOverLabel, playToRestartLabel, tweetTextLabel, loadingScreen, powerupLabel, border_nlol, border_plol, pausedImage, exitButton, tweetPanel, tweetUserLabel, tweetAvatar, spinner, tweetDateLabel, gameModeLabel;
+@synthesize scoreLabel, livesLabel, playPauseButton, gameOverLabel, playToRestartLabel, tweetTextLabel, loadingScreen, powerupLabel, border_nlol, border_plol, pausedImage, exitButton, tweetPanel, tweetUserLabel, tweetAvatar, spinner, tweetDateLabel, gameModeLabel, extremeLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil gameMode:(NSString*)gameMode
 {
@@ -67,11 +67,14 @@
         ball.tweetPanelAnimating = NO;
         [self.view addSubview:ball];
         
+        extremeLabel.hidden = YES;
+        
         if ( is_extreme ) 
         {
             lives = setting_extreme_starting_lives;
             [paddle decreaseSize];
             ball.speed = CGPointMake(4,4);
+            extremeLabel.hidden = NO;
         }
         livesLabel.text = [NSString stringWithFormat:@"%d",lives];
         
@@ -206,7 +209,7 @@
             {
                 for (int j = 0; j < config_blocks_cols; j++)
                 {  
-                    if(arc4random()%100 < ([[[NSUserDefaults standardUserDefaults] valueForKey:@"tweetCount"] intValue]) && counter < [tweet_data count]) 
+                    if(arc4random()%100 < ([user.udata integerForKey:@"SETTING_TWEETCOUNT"]) && counter < [tweet_data count]) 
                     {
                         aBlock = [Block blockAtPosition:CGPointMake(x,y) withImageNamed:@"block_tweet.png"];
                         aBlock.tweet_data = [tweet_data objectAtIndex:counter];

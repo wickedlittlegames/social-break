@@ -35,6 +35,5 @@
 - (IBAction)clickAchievements:(id)sender;
 - (IBAction)clickSocialbreak:(id)sender;
 - (IBAction)resetAchievements:(id)sender;
-- (void) setDefaultOptions;
 
 @end

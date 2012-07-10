@@ -159,6 +159,8 @@
 		9CEC7CED15A448C0002F84B0 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC7C6D15A448C0002F84B0 /* MainMenu.m */; };
 		9CEC7CEE15A448C0002F84B0 /* MainMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CEC7C6E15A448C0002F84B0 /* MainMenu.storyboard */; };
 		9CEC7CEF15A448C0002F84B0 /* OptionMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC7C7015A448C0002F84B0 /* OptionMenu.m */; };
+		9CFBCEF415AB7ECC004482F9 /* label_extrememode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFBCEF215AB7ECC004482F9 /* label_extrememode@2x.png */; };
+		9CFBCEF515AB7ECC004482F9 /* label_extrememode.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFBCEF315AB7ECC004482F9 /* label_extrememode.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -343,6 +345,8 @@
 		9CEC7C6E15A448C0002F84B0 /* MainMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainMenu.storyboard; sourceTree = "<group>"; };
 		9CEC7C6F15A448C0002F84B0 /* OptionMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionMenu.h; sourceTree = "<group>"; };
 		9CEC7C7015A448C0002F84B0 /* OptionMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionMenu.m; sourceTree = "<group>"; };
+		9CFBCEF215AB7ECC004482F9 /* label_extrememode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_extrememode@2x.png"; sourceTree = "<group>"; };
+		9CFBCEF315AB7ECC004482F9 /* label_extrememode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = label_extrememode.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -522,6 +526,8 @@
 		9CEC7BEE15A448C0002F84B0 /* HD */ = {
 			isa = PBXGroup;
 			children = (
+				9CFBCEF215AB7ECC004482F9 /* label_extrememode@2x.png */,
+				9CFBCEF315AB7ECC004482F9 /* label_extrememode.png */,
 				9CEC7BEF15A448C0002F84B0 /* ball@2x.png */,
 				9CEC7BF015A448C0002F84B0 /* bg_mainmenu@2x.png */,
 				9CEC7BF115A448C0002F84B0 /* block_blue@2x.png */,
@@ -834,6 +840,8 @@
 				9C24572F15AB0AE900329E64 /* label_extreme.png in Resources */,
 				9C24573215AB0B8800329E64 /* label_normal@2x.png in Resources */,
 				9C24573315AB0B8800329E64 /* label_normal.png in Resources */,
+				9CFBCEF415AB7ECC004482F9 /* label_extrememode@2x.png in Resources */,
+				9CFBCEF515AB7ECC004482F9 /* label_extrememode.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,7 +943,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andy Girvan (9QWWQGM634)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andy Girvan";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -952,7 +960,7 @@
 					"\"$(SRCROOT)/Social Breakout/Libs/FlurryAnalytics\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75E48853-AE50-476C-92E0-BF713B3AB265";
+				PROVISIONING_PROFILE = "BE27566A-73AF-4982-9D27-A9AB13DAD7DD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -961,7 +969,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andy Girvan (9QWWQGM634)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andy Girvan";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -978,7 +986,7 @@
 					"\"$(SRCROOT)/Social Breakout/Libs/FlurryAnalytics\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75E48853-AE50-476C-92E0-BF713B3AB265";
+				PROVISIONING_PROFILE = "BE27566A-73AF-4982-9D27-A9AB13DAD7DD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

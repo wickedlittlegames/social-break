@@ -98,7 +98,7 @@
 						<string key="NSFrame">{{87, 434}, {117, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1000816001"/>
+						<reference key="NSNextKeyView" ref="574097236"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -151,6 +151,21 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<reference key="IBUIFontDescription" ref="968590462"/>
 						<reference key="IBUIFont" ref="268882068"/>
+					</object>
+					<object class="IBUIImageView" id="574097236">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{100, 433}, {131, 14}}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1000816001"/>
+						<string key="NSReuseIdentifierKey">_NS:567</string>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">label_extrememode.png</string>
+						</object>
 					</object>
 					<object class="IBUIImageView" id="6377968">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -598,14 +613,6 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">loadingScreen</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="973027517"/>
-					</object>
-					<int key="connectionID">22</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">border_plol</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="87563917"/>
@@ -709,6 +716,22 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 					<int key="connectionID">61</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">loadingScreen</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="973027517"/>
+					</object>
+					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">extremeLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="574097236"/>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">playPause</string>
 						<reference key="source" ref="166922023"/>
@@ -760,6 +783,7 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 							<reference ref="973027517"/>
 							<reference ref="700908379"/>
 							<reference ref="35639668"/>
+							<reference ref="574097236"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -797,11 +821,6 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
 						<reference key="object" ref="598773521"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="973027517"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -879,6 +898,16 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 						<reference key="object" ref="35639668"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">21</int>
+						<reference key="object" ref="973027517"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="574097236"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -909,13 +938,14 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">61</int>
+			<int key="maxID">64</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -940,6 +970,7 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 						<string key="border_nlol">UIImageView</string>
 						<string key="border_plol">UIImageView</string>
 						<string key="exitButton">UIButton</string>
+						<string key="extremeLabel">UIImageView</string>
 						<string key="gameModeLabel">UILabel</string>
 						<string key="gameOverLabel">UILabel</string>
 						<string key="livesLabel">UILabel</string>
@@ -968,6 +999,10 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 						<object class="IBToOneOutletInfo" key="exitButton">
 							<string key="name">exitButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="extremeLabel">
+							<string key="name">extremeLabel</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="gameModeLabel">
 							<string key="name">gameModeLabel</string>
@@ -1052,6 +1087,7 @@ dWxsYSBsaWJlcm8gbGVjdHVzLgo</string>
 			<string key="bp_twitter_bgplane.png">{320, 480}</string>
 			<string key="button_back.png">{30, 30}</string>
 			<string key="frame_9.png">{640, 960}</string>
+			<string key="label_extrememode.png">{131, 14}</string>
 			<string key="label_lives.png">{84, 22}</string>
 			<string key="label_score.png">{94, 22}</string>
 			<string key="loading.png">{320, 480}</string>

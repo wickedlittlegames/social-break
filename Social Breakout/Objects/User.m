@@ -38,16 +38,16 @@
     - STAT_MOSTLIVES 
     
     #ACHIEVEMENTS#
-    - ACH_HIGHSCORE_1000            // score over 1000 points [done]
-    - ACH_HIGHSCORE_10000           // score over 10000 points [done]
-    - ACH_HIGHSCORE_100000          // score over 100000 points [done]
-    - ACH_TWEETED                   // use the tweet button [done]
-    - ACH_TWEETBLOCK_HIT            // tweetblock is hit [done]
-    - ACH_100_TWEETBLOCK_HIT        // 100 tweetblocks hit [done]
-    - ACH_INDESTRUCTIBLE            // had over 10 lives at one point [done]
-    - ACH_EXTREME                   // scored 50,000 in extreme mode [done]
-    - ACH_EXTREME_ROUND             // played one full round of extreme [done]
-    - ACH_MAX_SPEED                 // max speed achieved
+    - ACH_HIGHSCORE_1000            // score over 1000 points [done] //20
+    - ACH_HIGHSCORE_10000           // score over 10000 points [done] //50
+    - ACH_HIGHSCORE_100000          // score over 100000 points [done] // 100
+    - ACH_TWEETED                   // use the tweet button [done] // 10
+    - ACH_TWEETBLOCK_HIT            // tweetblock is hit [done] // 10
+    - ACH_100_TWEETBLOCK_HIT        // 100 tweetblocks hit [done] // 100
+    - ACH_INDESTRUCTIBLE            // had over 10 lives at one point [done] // 50
+    - ACH_EXTREME                   // scored 50,000 in extreme mode [done] // 200
+    - ACH_EXTREME_ROUND             // played one full round of extreme [done] // 50
+    - ACH_MAX_SPEED                 // max speed achieved // 50
 */
 
 -(User *) init {
@@ -58,8 +58,16 @@
         
         if ( [udata boolForKey:@"SETTING_CREATED"] == FALSE )
         {
-            [udata setInteger:[udata integerForKey:@"tweetCount"] forKey:@"SETTING_TWEETCOUNT"];            
-            [udata setInteger:[udata integerForKey:@"tweetTimer"] forKey:@"SETTING_READTIME"];
+            if ( [udata integerForKey:@"tweetCount"] ) 
+            {
+                [udata setInteger:[udata integerForKey:@"tweetCount"] forKey:@"SETTING_TWEETCOUNT"];            
+                [udata setInteger:[udata integerForKey:@"tweetTimer"] forKey:@"SETTING_READTIME"];
+            }
+            else 
+            {
+                [udata setInteger:40 forKey:@"SETTING_TWEETCOUNT"];            
+                [udata setInteger:3 forKey:@"SETTING_READTIME"];
+            }
             [udata setBool:TRUE forKey:@"SETTING_CREATED"];
             [udata setBool:[udata boolForKey:@"muted"] forKey:@"SETTING_MUTED"];
             
@@ -128,7 +136,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                        notifyAchievementTitle:@"CASUAL" 
+                                        notifyAchievementTitle:@"Casual" 
                                         andMessage:@"Scored higher than 1000 points!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -138,7 +146,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"ADDICTED" 
+                                      notifyAchievementTitle:@"Addicted" 
                                       andMessage:@"Scored higher than 10000 points!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -148,7 +156,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"HARDCORE" 
+                                      notifyAchievementTitle:@"Hardcore" 
                                       andMessage:@"Scored higher than 100000 points!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -158,7 +166,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"SPREAD THE WORD" 
+                                      notifyAchievementTitle:@"Spread the word" 
                                       andMessage:@"You tweeted your score!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -168,7 +176,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"SOCIAL BREAKER" 
+                                      notifyAchievementTitle:@"Social Breaker" 
                                       andMessage:@"You hit a Tweet Block!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -178,7 +186,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"MEGA SOCIAL BREAKER" 
+                                      notifyAchievementTitle:@"Mega Social Breaker" 
                                       andMessage:@"You hit over 100 Tweet Blocks!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -188,7 +196,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"INDESTRUCTIBLE" 
+                                      notifyAchievementTitle:@"Indestructible" 
                                       andMessage:@"You collected more than 10 lives!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -198,7 +206,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"ALMOST EXTREME SOCIAL BREAKER" 
+                                      notifyAchievementTitle:@"Almost Extreme Social Breaker" 
                                       andMessage:@"You completed a full round of EXTREME MODE!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -208,7 +216,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"EXTREME SOCIAL BREAKER" 
+                                      notifyAchievementTitle:@"Extreme Social Breaker" 
                                       andMessage:@"Whoa! You scored more than 50,000 in EXTREME MODE!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
@@ -218,7 +226,7 @@
                                  if ( ![udata boolForKey:identifier] )
                                  {
                                      [[GKAchievementHandler defaultHandler] 
-                                      notifyAchievementTitle:@"SPEEDY" 
+                                      notifyAchievementTitle:@"Maximum Velocity" 
                                       andMessage:@"You achieved maximum velocity!"];
                                      [udata setBool:TRUE forKey:identifier];
                                  }
